@@ -1,15 +1,12 @@
 import { Link } from "react-router-dom";
 import reactLogo from "../../assets/react.svg";
 import viteLogo from "/vite.svg";
+import { Header } from "../../components/Header";
 
 export const Home = () => {
   return (
     <div>
-      <nav>
-        <Link to="/teachers">teachers</Link>
-        <Link to="/favorites">favorites</Link>
-      </nav>
-
+      <Header />
       <p>Home</p>
     </div>
   );
