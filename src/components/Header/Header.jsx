@@ -1,20 +1,27 @@
 import { Link } from "react-router-dom";
-import ua from "../../assets/ukraine.svg";
+
+import { Logo } from "../../ui/Logo";
+import { StyledLink } from "../../ui/Link";
+import { LogInBtn } from "../../ui/LogInBtn";
+import { BtnText } from "../../ui/BtnText";
 
 export const Header = () => {
   return (
-    <header className="flex justify-between px-10">
-      <div className="flex gap-2">
-        <img src={ua} />
-        <p>LearnLingo</p>
-      </div>
-      <nav className="flex gap-2">
-        <Link to="/">Home</Link>
-        <Link to="/teachers">Teachers</Link>
+    <header className="px-[8rem] py-5 flex justify-between">
+      <Logo />
+      <nav className="flex gap-[1.75rem] items-center">
+        <Link to="/">
+          <StyledLink>Home</StyledLink>
+        </Link>
+        <Link to="/teachers">
+          <StyledLink>Teachers</StyledLink>
+        </Link>
       </nav>
-      <div className="flex gap-2">
-        <p>Log in</p>
-        <p>Registration</p>
+      <div className="flex gap-4">
+        <LogInBtn>Log in</LogInBtn>
+        <button className="w-[166px] h-12 px-[39px] py-3.5 bg-neutral-900 rounded-xl justify-center items-center gap-2 inline-flex">
+          <BtnText className="text-white">Registration</BtnText>
+        </button>
       </div>
     </header>
   );
