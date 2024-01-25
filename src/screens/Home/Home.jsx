@@ -1,13 +1,13 @@
-import { Link } from "react-router-dom";
-import reactLogo from "../../assets/react.svg";
-import viteLogo from "/vite.svg";
 import { Header } from "../../components/Header";
+import { Hero } from "../../components/Hero";
+import { HeroFooter } from "../../components/HomeFooter";
 
 export const Home = () => {
   return (
-    <div>
+    <div className="min-h-screen grid grid-rows-[min-content_1fr_min-content] pb-8">
       <Header />
-      <p>Home</p>
+      <Hero />
+      <HeroFooter />
     </div>
   );
 };
