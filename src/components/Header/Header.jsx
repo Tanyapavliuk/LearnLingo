@@ -14,9 +14,9 @@ import { LogOut } from "../LogOut";
 const auth = getAuth(app);
 const initValue = onAuthStateChanged(auth, (user) => {
   if (user) {
-    setUser(user);
+    return user;
   } else {
-    setUser(null);
+    return null;
   }
 });
 
