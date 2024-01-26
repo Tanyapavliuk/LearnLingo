@@ -56,7 +56,7 @@ export const LoginForm = ({ onClose }) => {
               label="Password"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.email}
+              value={values.password}
             />
             {errors.password && touched.password && errors.password}
           </div>
