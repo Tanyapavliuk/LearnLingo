@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Btn } from "../../ui/Btn";
 import { Text } from "../../ui/Text";
 
@@ -16,7 +17,9 @@ export const MainInfo = () => {
         Elevate your language proficiency to new heights by connecting with
         highly qualified and experienced tutors.
       </Text>
-      <Btn>Get started</Btn>
+      <Link to="/teachers">
+        <Btn>Get started</Btn>
+      </Link>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { HeroFooter } from "../../components/HomeFooter";
 
 export const Home = () => {
   return (
-    <div className="min-h-screen grid grid-rows-[min-content_1fr_min-content] pb-8">
+    <div className="min-h-screen grid grid-rows-[min-content_1fr_min-content] pb-8 pt-5">
       <Header />
       <Hero />
       <HeroFooter />
