@@ -10,7 +10,6 @@ import { Btn } from "../../ui/Btn";
 
 export const ListTeacherItem = ({ el }) => {
   const [more, setMore] = useState(false);
-  console.log(el.id);
   return (
     <li className="grid grid-cols-[max-content_1fr] gap-[48px] p-6 rounded-3xl border-2 border-accent">
       <div className="grid grid-rows-[max-content_1fr] ">
