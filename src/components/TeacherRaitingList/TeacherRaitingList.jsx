@@ -22,12 +22,13 @@ import {
 export const TeacherRaitingList = ({ el }) => {
   const [favorites, setFavorites] = useState(false);
   const [favoritesList, setFavoritesList] = useState([]);
-  const [favoriteDocRefs, setFavoriteDocRefs] = useState([]);
 
   const auth = getAuth(app);
   const { uid } = auth.currentUser;
   const database = getFirestore(app);
   const favoritesCollection = collection(database, "users", uid, "favorites");
+
+  console.log(favoritesList);
 
   const getData = async () => {
     let favoritesList = [];
@@ -35,7 +36,7 @@ export const TeacherRaitingList = ({ el }) => {
     try {
       const querySnapshot = await getDocs(favoritesCollection);
       querySnapshot.forEach((doc) => {
-        favoritesList.push(doc.data());
+        favoritesList.push({ ref: doc.id, data: doc.data() });
       });
     } catch (error) {
       console.error("Помилка при читанні даних:", error);
@@ -45,23 +46,25 @@ export const TeacherRaitingList = ({ el }) => {
 
   useEffect(() => {
     getData().then((data) => setFavoritesList(data));
-  }, [favorites]);
+  }, []);
 
   const toggleFavorite = async (id) => {
-    const isFavorite = favoriteDocRefs.some((el) => el.id === id);
-    if (isFavorite) {
-      const favoriteDoc = favoriteDocRefs.find(
-        (favorite) => favorite.id === id
-      );
+    const isFavorite = favoritesList.find((el) => el.data?.id === id);
 
-      await deleteDoc(doc(favoritesCollection, favoriteDoc.ref));
-      setFavoriteDocRefs((state) => [...state.filter((el) => el.id !== id)]);
+    if (isFavorite) {
+      await deleteDoc(doc(favoritesCollection, isFavorite.ref));
+
+      setFavoritesList((state) => {
+        return state.filter((el) => {
+          el.data.id === id;
+        });
+      });
     } else {
       try {
         const favoriteDocRef = await addDoc(favoritesCollection, { ...el });
-        setFavoriteDocRefs((prevState) => [
+        setFavoritesList((prevState) => [
           ...prevState,
-          { id: el.id, ref: favoriteDocRef.id },
+          { data: el, ref: favoriteDocRef.id },
         ]);
         console.log("Favorite item added with ID: ", favoriteDocRef.id);
       } catch (error) {
