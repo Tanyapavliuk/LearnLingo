@@ -1,3 +1,38 @@
+import { Header } from "../../components/Header/Header";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { app } from "../../firebase";
+import { useLayoutEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const auth = getAuth(app);
+const initValue = onAuthStateChanged(auth, (user) => {
+  if (user) {
+    return user;
+  } else {
+    return null;
+  }
+});
+
 export const Favorites = () => {
-  return <div>Favorites</div>;
+  const navigate = useNavigate();
+  const [user, setUser] = useState(initValue);
+
+  const auth = getAuth(app);
+
+  useLayoutEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+        navigate("/");
+      }
+    });
+  }, [user]);
+
+  return (
+    <div className="min-h-screen grid grid-rows-[min-content_1fr_min-content] pb-8 pt-5">
+      <Header />
+    </div>
+  );
 };

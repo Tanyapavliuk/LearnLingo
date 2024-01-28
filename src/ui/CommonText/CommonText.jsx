@@ -1,7 +1,9 @@
-export const CommonText = ({ children }) => {
+export const CommonText = ({ className = "", children }) => {
   return (
-    <p className="text-neutral-900 text-base font-medium leading-normal">
+    <span
+      className={`text-neutral-900 text-base font-medium leading-normal ${className}`}
+    >
       {children}
-    </p>
+    </span>
   );
 };
