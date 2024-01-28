@@ -26,6 +26,7 @@ export default {
       colors: {
         accent: "#F4C550",
         btnHover: "#FFDC86",
+        gray: "#8A8A89",
       },
       fontFamily: {
         sans: ['"Roboto"', ...defaultTheme.fontFamily.sans],

@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "../../firebase";
 
@@ -41,12 +41,32 @@ export const Header = () => {
     <header className="px-[8rem] pb-5 flex justify-between">
       <Logo />
       <nav className="flex gap-[1.75rem] items-center">
-        <Link to="/">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? "underline decoration-accent" : ""
+          }
+        >
           <StyledLink>Home</StyledLink>
-        </Link>
-        <Link to="/teachers">
+        </NavLink>
+        <NavLink
+          to="/teachers"
+          className={({ isActive }) =>
+            isActive ? "underline decoration-accent" : ""
+          }
+        >
           <StyledLink>Teachers</StyledLink>
-        </Link>
+        </NavLink>
+        {user ? (
+          <NavLink
+            to="/favorites"
+            className={({ isActive }) =>
+              isActive ? "underline decoration-accent" : ""
+            }
+          >
+            <StyledLink>Favorites</StyledLink>
+          </NavLink>
+        ) : null}
       </nav>
 
       {user === null && (
