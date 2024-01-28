@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { app } from "../../firebase";
+import { getAuth } from "firebase/auth";
+
 import { CommonText } from "../../ui/CommonText";
 import { AccentText } from "../../ui/AccentText/AccentText";
 
@@ -7,9 +10,66 @@ import star from "../../assets/star.svg";
 import book from "../../assets/book.svg";
 import heart from "../../assets/heart.svg";
 import addedHeart from "../../assets/addedHeart.svg";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 
 export const TeacherRaitingList = ({ el }) => {
   const [favorites, setFavorites] = useState(false);
+  const [favoritesList, setFavoritesList] = useState([]);
+  const [favoriteDocRefs, setFavoriteDocRefs] = useState([]);
+
+  const auth = getAuth(app);
+  const { uid } = auth.currentUser;
+  const database = getFirestore(app);
+  const favoritesCollection = collection(database, "users", uid, "favorites");
+
+  const getData = async () => {
+    let favoritesList = [];
+
+    try {
+      const querySnapshot = await getDocs(favoritesCollection);
+      querySnapshot.forEach((doc) => {
+        favoritesList.push(doc.data());
+      });
+    } catch (error) {
+      console.error("Помилка при читанні даних:", error);
+    }
+    return favoritesList;
+  };
+
+  useEffect(() => {
+    getData().then((data) => setFavoritesList(data));
+  }, [favorites]);
+
+  const toggleFavorite = async (id) => {
+    const isFavorite = favoriteDocRefs.some((el) => el.id === id);
+    if (isFavorite) {
+      const favoriteDoc = favoriteDocRefs.find(
+        (favorite) => favorite.id === id
+      );
+
+      await deleteDoc(doc(favoritesCollection, favoriteDoc.ref));
+      setFavoriteDocRefs((state) => [...state.filter((el) => el.id !== id)]);
+    } else {
+      try {
+        const favoriteDocRef = await addDoc(favoritesCollection, { ...el });
+        setFavoriteDocRefs((prevState) => [
+          ...prevState,
+          { id: el.id, ref: favoriteDocRef.id },
+        ]);
+        console.log("Favorite item added with ID: ", favoriteDocRef.id);
+      } catch (error) {
+        console.error("Error adding favorite item: ", error);
+      }
+    }
+  };
+
   return (
     <div className="flex gap-[64px]">
       <ul className="flex gap-4 items-center">
@@ -42,10 +102,15 @@ export const TeacherRaitingList = ({ el }) => {
           </CommonText>
         </li>
       </ul>
-      <button onClick={() => setFavorites((favorites) => !favorites)}>
+      <button
+        onClick={() => {
+          setFavorites((favorites) => !favorites);
+        }}
+      >
         <img
           src={favorites ? addedHeart : heart}
           className={`w-[26px] h-[26px] `}
+          onClick={() => toggleFavorite(el.id)}
         />
       </button>
     </div>
