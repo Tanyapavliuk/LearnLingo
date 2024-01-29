@@ -22,16 +22,19 @@ import {
 export const TeacherRaitingList = ({ el }) => {
   const [favorites, setFavorites] = useState(false);
   const [favoritesList, setFavoritesList] = useState([]);
+  const [isUser, setIsUser] = useState(false);
 
   const auth = getAuth(app);
-  const { uid } = auth.currentUser;
+  const uid = auth.currentUser?.uid;
   const database = getFirestore(app);
   const favoritesCollection = collection(database, "users", uid, "favorites");
 
-  console.log(favoritesList);
-
   const getData = async () => {
     let favoritesList = [];
+
+    if (uid) {
+      setIsUser(true);
+    }
 
     try {
       const querySnapshot = await getDocs(favoritesCollection);
@@ -41,6 +44,7 @@ export const TeacherRaitingList = ({ el }) => {
     } catch (error) {
       console.error("Помилка при читанні даних:", error);
     }
+
     return favoritesList;
   };
 
@@ -49,6 +53,10 @@ export const TeacherRaitingList = ({ el }) => {
   }, []);
 
   const toggleFavorite = async (id) => {
+    if (!isUser) {
+      alert("is not user");
+      return;
+    }
     const isFavorite = favoritesList.find((el) => el.data?.id === id);
 
     if (isFavorite) {
@@ -107,11 +115,15 @@ export const TeacherRaitingList = ({ el }) => {
       </ul>
       <button
         onClick={() => {
-          setFavorites((favorites) => !favorites);
+          setFavorites((favorites) => {
+            if (isUser) {
+              return !favorites;
+            }
+          });
         }}
       >
         <img
-          src={favorites ? addedHeart : heart}
+          src={isUser && favorites ? addedHeart : heart}
           className={`w-[26px] h-[26px] `}
           onClick={() => toggleFavorite(el.id)}
         />
