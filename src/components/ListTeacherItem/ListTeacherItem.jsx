@@ -7,9 +7,11 @@ import { TeacherRaitingList } from "../TeacherRaitingList";
 import { TeacherShortInfo } from "../TeacherShortInfo";
 import { TeacherMoreInfo } from "../TeacherMoreInfo";
 import { Btn } from "../../ui/Btn";
+import { BookLessonModal } from "../BookLessonModal";
 
 export const ListTeacherItem = ({ el }) => {
   const [more, setMore] = useState(false);
+  const [book, setBook] = useState(false);
   return (
     <li className="grid grid-cols-[max-content_1fr] gap-[48px] p-6 rounded-3xl border-2 border-accent">
       <div className="grid grid-rows-[max-content_1fr] ">
@@ -40,7 +42,16 @@ export const ListTeacherItem = ({ el }) => {
           </CommonText>
         </button>
         <LangList data={el.levels} />
-        {more ? <Btn className="mt-8">Book trial lesson</Btn> : null}
+        {more ? (
+          <>
+            <button onClick={() => setBook(true)}>
+              <Btn className="mt-8">Book trial lesson</Btn>
+            </button>
+          </>
+        ) : null}
+        {book ? (
+          <BookLessonModal el={el} onClose={() => setBook(false)} />
+        ) : null}
       </div>
     </li>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { app } from "../../firebase";
 import { getAuth } from "firebase/auth";
 
@@ -18,59 +18,82 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
+import { Favorite } from "../../helpers/ContextProvider";
 
 export const TeacherRaitingList = ({ el }) => {
   const [favorites, setFavorites] = useState(false);
-  const [favoritesList, setFavoritesList] = useState([]);
   const [isUser, setIsUser] = useState(false);
+  const { favorite, setFavoriteValue } = useContext(Favorite);
+  const [uid, setUid] = useState(null);
+  const [collectionRef, setCollectionRef] = useState(null);
 
-  const auth = getAuth(app);
-  const uid = auth.currentUser?.uid;
-  const database = getFirestore(app);
-  const favoritesCollection = collection(database, "users", uid, "favorites");
-
-  const getData = async () => {
-    let favoritesList = [];
+  useEffect(() => {
+    const auth = getAuth(app);
+    const uid = auth.currentUser?.uid;
 
     if (uid) {
       setIsUser(true);
+      setUid(uid);
+      const database = getFirestore(app);
+      const favoritesCollection = collection(
+        database,
+        "users",
+        uid,
+        "favorites"
+      );
+      setCollectionRef(favoritesCollection);
+    } else {
+      setIsUser(false);
     }
+    window.setTimeout(console.log(favorite), 0);
+  }, [isUser, favorites]);
 
-    try {
-      const querySnapshot = await getDocs(favoritesCollection);
-      querySnapshot.forEach((doc) => {
-        favoritesList.push({ ref: doc.id, data: doc.data() });
-      });
-    } catch (error) {
-      console.error("Помилка при читанні даних:", error);
-    }
+  // const getData = async () => {
+  //   let favoritesList = [];
 
-    return favoritesList;
-  };
+  //   if (uid) {
+  //     setIsUser(true);
+  //   }
 
-  useEffect(() => {
-    getData().then((data) => setFavoritesList(data));
-  }, []);
+  //   try {
+  //     const querySnapshot = await getDocs(favoritesCollection);
+  //     querySnapshot.forEach((doc) => {
+  //       favoritesList.push({ ref: doc.id, data: doc.data() });
+  //     });
+  //   } catch (error) {
+  //     console.error("Помилка при читанні даних:", error);
+  //   }
+
+  //   return favoritesList;
+  // };
+
+  // useEffect(() => {
+  //   getData().then((data) => setFavoritesList(data));
+  // }, []);
 
   const toggleFavorite = async (id) => {
     if (!isUser) {
       alert("is not user");
       return;
     }
-    const isFavorite = favoritesList.find((el) => el.data?.id === id);
+    const isFavorite = favorite.find((el) => el.data?.id === id);
+    console.log(isFavorite);
 
     if (isFavorite) {
-      await deleteDoc(doc(favoritesCollection, isFavorite.ref));
-
-      setFavoritesList((state) => {
-        return state.filter((el) => {
+      console.log("delete");
+      await deleteDoc(doc(collectionRef, isFavorite.ref));
+      setFavoriteValue((state) => {
+        const newState = state.filter((el) => {
           el.data.id === id;
         });
+        console.log(newState);
+        return newState;
       });
     } else {
       try {
-        const favoriteDocRef = await addDoc(favoritesCollection, { ...el });
-        setFavoritesList((prevState) => [
+        console.log("add");
+        const favoriteDocRef = await addDoc(collectionRef, { ...el });
+        setFavoriteValue((prevState) => [
           ...prevState,
           { data: el, ref: favoriteDocRef.id },
         ]);
