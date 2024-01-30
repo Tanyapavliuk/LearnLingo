@@ -34,7 +34,7 @@ export const Favorites = () => {
   return (
     <div className="min-h-screen grid grid-rows-[min-content_1fr_min-content] pb-8 pt-5">
       <Header />
-      <ListFavorites />
+      {/* <ListFavorites /> */}
     </div>
   );
 };

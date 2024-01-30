@@ -1,6 +1,12 @@
-export const Btn = ({ type = "button", className = "", children }) => {
+export const Btn = ({
+  type = "button",
+  className = "",
+  children,
+  onClick = "",
+}) => {
   return (
     <button
+      onClick={onClick}
       type={type}
       className={`w-[267px] h-[60px] px-[88px] py-4 bg-accent hover:bg-btnHover hover:shadow rounded-xl justify-center items-center inline-flex ${className}`}
     >

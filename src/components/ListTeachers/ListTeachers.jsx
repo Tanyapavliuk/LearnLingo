@@ -1,12 +1,14 @@
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { app } from "../../firebase";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { ListTeacherItem } from "../ListTeacherItem";
+import { getAuth } from "firebase/auth";
+import { Favorite } from "../../helpers/ContextProvider";
 
 const readDataFromFirestore = async () => {
-  const db = getFirestore(app);
-  const dataCollection = collection(db, "teachers");
+  const database = getFirestore(app);
+  const dataCollection = collection(database, "teachers");
   let teachers = [];
 
   try {
@@ -20,18 +22,36 @@ const readDataFromFirestore = async () => {
 
   return teachers;
 };
+const readAllFavorites = async () => {
+  let favoritesList = [];
+  const auth = getAuth(app);
+  const database = getFirestore(app);
+  const uid = auth.currentUser?.uid;
+  const favoritesCollection = collection(database, "users", uid, "favorites");
+
+  try {
+    const querySnapshot = await getDocs(favoritesCollection);
+    querySnapshot.forEach((doc) => {
+      favoritesList.push({ ref: doc.id, data: doc.data() });
+    });
+  } catch (error) {
+    console.error("Помилка при читанні даних:", error);
+  }
+
+  return favoritesList;
+};
 
 export const ListTeachers = () => {
   const [teachers, setTeachers] = useState([]);
+  const { setFavoriteValue } = useContext(Favorite);
 
   useEffect(() => {
     const getData = async () => {
       readDataFromFirestore().then((data) => setTeachers(data));
+      readAllFavorites().then((data) => setFavoriteValue(data));
     };
     getData();
   }, []);
-
-  console.log(teachers);
 
   return (
     <ul className="px-20 flex flex-col gap-8">
