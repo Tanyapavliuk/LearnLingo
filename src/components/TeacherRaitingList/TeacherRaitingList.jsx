@@ -14,52 +14,58 @@ import {
   getFirestore,
   collection,
   addDoc,
-  getDocs,
   deleteDoc,
   doc,
 } from "firebase/firestore";
 import { Favorite } from "../../helpers/ContextProvider";
 
 export const TeacherRaitingList = ({ el }) => {
+  const { favorite } = useContext(Favorite);
   const [favorites, setFavorites] = useState(false);
+  const [inList, setInList] = useState(false);
   const [isUser, setIsUser] = useState(false);
-  const { favorite, setFavoriteValue } = useContext(Favorite);
   const [collectionRef, setCollectionRef] = useState(null);
 
-  useEffect(() => {
-    const auth = getAuth(app);
-    const uid = auth.currentUser?.uid;
+  const auth = getAuth(app);
 
+  useEffect(() => {
+    const uid = auth.currentUser?.uid;
     if (uid) {
       setIsUser(true);
-      const database = getFirestore(app);
-      const favoritesCollection = collection(
-        database,
-        "users",
-        uid,
-        "favorites"
-      );
-      setCollectionRef(favoritesCollection);
-    } else {
-      setIsUser(false);
+      return;
     }
-  }, [isUser, favorites]);
+    if (!uid) {
+      setIsUser(false);
+      return;
+    }
+  });
+
+  useEffect(() => {
+    const uid = auth.currentUser?.uid;
+    const database = getFirestore(app);
+    const favoritesCollection = collection(database, "users", uid, "favorites");
+    setCollectionRef(favoritesCollection);
+  }, []);
 
   const toggleFavorite = async (id) => {
     if (!isUser) {
       alert("is not user");
       return;
     }
-    const isFavorite = favorite.data.find((el) => el?.id === id);
+    const isFavorite =
+      favorite.data && favorite.data.find((el) => el.data?.id === id);
 
     if (isFavorite) {
+      setInList(true);
       await deleteDoc(doc(collectionRef, isFavorite.ref));
+      setInList(false);
     } else {
       try {
         const favoriteDocRef = await addDoc(collectionRef, { ...el });
-        // console.log("Favorite item added with ID: ", favoriteDocRef.id);
+        console.log("Favorite item added with ID: ", favoriteDocRef.id);
+        setInList(true);
       } catch (error) {
-        // console.error("Error adding favorite item: ", error);
+        console.error("Error adding favorite item: ", error);
       }
     }
   };
@@ -96,19 +102,10 @@ export const TeacherRaitingList = ({ el }) => {
           </CommonText>
         </li>
       </ul>
-      <button
-        onClick={() => {
-          setFavorites((favorites) => {
-            if (isUser) {
-              return !favorites;
-            }
-          });
-        }}
-      >
+      <button onClick={() => toggleFavorite(el.id)}>
         <img
-          src={isUser && favorites ? addedHeart : heart}
+          src={isUser && inList ? addedHeart : heart}
           className={`w-[26px] h-[26px] `}
-          onClick={() => toggleFavorite(el.id)}
         />
       </button>
     </div>
