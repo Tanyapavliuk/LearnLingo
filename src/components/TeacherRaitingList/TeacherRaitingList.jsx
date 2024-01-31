@@ -24,7 +24,6 @@ export const TeacherRaitingList = ({ el }) => {
   const [favorites, setFavorites] = useState(false);
   const [isUser, setIsUser] = useState(false);
   const { favorite, setFavoriteValue } = useContext(Favorite);
-  const [uid, setUid] = useState(null);
   const [collectionRef, setCollectionRef] = useState(null);
 
   useEffect(() => {
@@ -33,7 +32,6 @@ export const TeacherRaitingList = ({ el }) => {
 
     if (uid) {
       setIsUser(true);
-      setUid(uid);
       const database = getFirestore(app);
       const favoritesCollection = collection(
         database,
@@ -45,61 +43,23 @@ export const TeacherRaitingList = ({ el }) => {
     } else {
       setIsUser(false);
     }
-    window.setTimeout(console.log(favorite), 0);
   }, [isUser, favorites]);
-
-  // const getData = async () => {
-  //   let favoritesList = [];
-
-  //   if (uid) {
-  //     setIsUser(true);
-  //   }
-
-  //   try {
-  //     const querySnapshot = await getDocs(favoritesCollection);
-  //     querySnapshot.forEach((doc) => {
-  //       favoritesList.push({ ref: doc.id, data: doc.data() });
-  //     });
-  //   } catch (error) {
-  //     console.error("Помилка при читанні даних:", error);
-  //   }
-
-  //   return favoritesList;
-  // };
-
-  // useEffect(() => {
-  //   getData().then((data) => setFavoritesList(data));
-  // }, []);
 
   const toggleFavorite = async (id) => {
     if (!isUser) {
       alert("is not user");
       return;
     }
-    const isFavorite = favorite.find((el) => el.data?.id === id);
-    console.log(isFavorite);
+    const isFavorite = favorite.data.find((el) => el?.id === id);
 
     if (isFavorite) {
-      console.log("delete");
       await deleteDoc(doc(collectionRef, isFavorite.ref));
-      setFavoriteValue((state) => {
-        const newState = state.filter((el) => {
-          el.data.id === id;
-        });
-        console.log(newState);
-        return newState;
-      });
     } else {
       try {
-        console.log("add");
         const favoriteDocRef = await addDoc(collectionRef, { ...el });
-        setFavoriteValue((prevState) => [
-          ...prevState,
-          { data: el, ref: favoriteDocRef.id },
-        ]);
-        console.log("Favorite item added with ID: ", favoriteDocRef.id);
+        // console.log("Favorite item added with ID: ", favoriteDocRef.id);
       } catch (error) {
-        console.error("Error adding favorite item: ", error);
+        // console.error("Error adding favorite item: ", error);
       }
     }
   };
