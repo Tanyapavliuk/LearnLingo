@@ -6,19 +6,20 @@ import { collection, getFirestore, onSnapshot } from "firebase/firestore";
 export const Favorite = createContext();
 
 export const ContextProvider = ({ children }) => {
+  const auth = getAuth(app);
+
   const [favorite, setFavorite] = useState({
     loading: true,
     data: [],
     message: "",
   });
-
   useEffect(() => {
     const readAllFavorites = async () => {
       try {
-        const auth = await getAuth(app);
         console.log(auth);
 
         const uid = auth.currentUser?.uid;
+        console.log("uid", uid);
 
         if (!uid) {
           setFavorite({ loading: false, data: [], message: "Please, log in" });
@@ -51,7 +52,7 @@ export const ContextProvider = ({ children }) => {
     };
 
     readAllFavorites();
-  }, []);
+  }, [auth]);
 
   const setFavoriteValue = (value) => {
     setFavorite(value);
