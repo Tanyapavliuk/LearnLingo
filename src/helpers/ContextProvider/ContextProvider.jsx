@@ -16,10 +16,7 @@ export const ContextProvider = ({ children }) => {
   useEffect(() => {
     const readAllFavorites = async () => {
       try {
-        console.log(auth);
-
         const uid = auth.currentUser?.uid;
-        console.log("uid", uid);
 
         if (!uid) {
           setFavorite({ loading: false, data: [], message: "Please, log in" });
@@ -46,7 +43,6 @@ export const ContextProvider = ({ children }) => {
           unsubscribe();
         };
       } catch (error) {
-        console.error("Error reading favorites:", error);
         setFavorite({ loading: false, data: [], message: "Error" });
       }
     };

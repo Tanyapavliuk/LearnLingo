@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "../../firebase";
@@ -10,6 +10,8 @@ import { BtnText } from "../../ui/BtnText";
 import { Register } from "../Register";
 import { Login } from "../Login";
 import { LogOut } from "../LogOut";
+import { Navigation } from "../Navigation";
+import { Btn } from "../../ui/Btn";
 
 const auth = getAuth(app);
 const initValue = onAuthStateChanged(auth, (user) => {
@@ -38,36 +40,9 @@ export const Header = () => {
   }, [auth]);
 
   return (
-    <header className="px-[8rem] pb-5 flex justify-between">
+    <header className="px-5 md:px-16 lg:px-[8rem] pb-5 flex justify-between">
       <Logo />
-      <nav className="flex gap-[1.75rem] items-center">
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive ? "underline decoration-accent" : ""
-          }
-        >
-          <StyledLink>Home</StyledLink>
-        </NavLink>
-        <NavLink
-          to="/teachers"
-          className={({ isActive }) =>
-            isActive ? "underline decoration-accent" : ""
-          }
-        >
-          <StyledLink>Teachers</StyledLink>
-        </NavLink>
-        {user ? (
-          <NavLink
-            to="/favorites"
-            className={({ isActive }) =>
-              isActive ? "underline decoration-accent" : ""
-            }
-          >
-            <StyledLink>Favorites</StyledLink>
-          </NavLink>
-        ) : null}
-      </nav>
+      <Navigation user={user} />
 
       {user === null && (
         <div className="flex gap-4">
@@ -86,7 +61,7 @@ export const Header = () => {
         </div>
       )}
       {user !== null && (
-        <div className="flex gap-4 items-center">
+        <div className="flex flex-col lg:flex-wrap gap-4 items-center">
           <p>
             {auth.currentUser === null
               ? "anonimus"
