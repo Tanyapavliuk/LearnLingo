@@ -35,7 +35,7 @@ export const Header = () => {
         setUser(null);
       }
     });
-  }, [user]);
+  }, [auth]);
 
   return (
     <header className="px-[8rem] pb-5 flex justify-between">

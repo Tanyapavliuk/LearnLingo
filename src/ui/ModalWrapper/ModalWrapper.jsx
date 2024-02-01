@@ -1,5 +1,10 @@
+import { useEffect } from "react";
 import x from "../../assets/x.svg";
 export const ModalWrapper = ({ onClose, children }) => {
+  useEffect(() => {
+    document.body.classList.add("overscroll-y-none");
+    return document.body.classList.remove("overscroll-y-none");
+  }, []);
   return (
     <div
       id="backdrop"

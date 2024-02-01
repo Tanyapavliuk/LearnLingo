@@ -21,7 +21,6 @@ import { Favorite } from "../../helpers/ContextProvider";
 
 export const TeacherRaitingList = ({ el }) => {
   const { favorite } = useContext(Favorite);
-  const [favorites, setFavorites] = useState(false);
   const [inList, setInList] = useState(false);
   const [isUser, setIsUser] = useState(false);
   const [collectionRef, setCollectionRef] = useState(null);
@@ -38,14 +37,21 @@ export const TeacherRaitingList = ({ el }) => {
       setIsUser(false);
       return;
     }
-  });
+  }, [auth]);
 
   useEffect(() => {
     const uid = auth.currentUser?.uid;
-    const database = getFirestore(app);
-    const favoritesCollection = collection(database, "users", uid, "favorites");
-    setCollectionRef(favoritesCollection);
-  }, []);
+    if (uid) {
+      const database = getFirestore(app);
+      const favoritesCollection = collection(
+        database,
+        "users",
+        uid,
+        "favorites"
+      );
+      setCollectionRef(favoritesCollection);
+    }
+  }, [auth]);
 
   const toggleFavorite = async (id) => {
     if (!isUser) {

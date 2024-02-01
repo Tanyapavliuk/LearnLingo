@@ -5,6 +5,7 @@ import { Formik } from "formik";
 
 import { Btn } from "../../ui/Btn";
 import { Input } from "../../ui/Input";
+import { LoginSchema } from "../../helpers/yupSchemas/schemas.js";
 
 const initialValues = {
   email: "",
@@ -17,6 +18,7 @@ export const LoginForm = ({ onClose }) => {
   return (
     <Formik
       initialValues={initialValues}
+      validationSchema={LoginSchema}
       onSubmit={async (values, { setSubmitting }) => {
         signInWithEmailAndPassword(auth, values.email, values.password)
           .then((userCredential) => {
@@ -48,8 +50,8 @@ export const LoginForm = ({ onClose }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.email}
+              error={errors.email}
             />
-            {errors.email && touched.email && errors.email}
             <Input
               type="password"
               name="password"
@@ -57,8 +59,8 @@ export const LoginForm = ({ onClose }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.password}
+              error={errors.password}
             />
-            {errors.password && touched.password && errors.password}
           </div>
           <Btn type="submit" disabled={isSubmitting} className="w-full">
             Log in

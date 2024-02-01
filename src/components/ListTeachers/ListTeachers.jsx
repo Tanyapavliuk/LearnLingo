@@ -24,15 +24,15 @@ const readDataFromFirestore = async () => {
 
 export const ListTeachers = () => {
   const [teachers, setTeachers] = useState([]);
-  const { favorite } = useContext(Favorite);
+  // const { favorite } = useContext(Favorite);
 
   useEffect(() => {
     const getData = async () => {
       readDataFromFirestore().then((data) => setTeachers(data));
     };
-    console.log(favorite);
+    // console.log(favorite);
     getData();
-  }, [favorite]);
+  }, []);
 
   return (
     <ul className="px-20 flex flex-col gap-8">
