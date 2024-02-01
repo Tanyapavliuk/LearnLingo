@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { app } from "../../firebase.js";
 import { useState } from "react";
+import { RegisterSchema } from "../../helpers/yupSchemas/schemas.js";
 
 const initialValues = {
   name: "",
@@ -24,6 +25,7 @@ const RegisterForm = () => {
     <>
       <Formik
         initialValues={initialValues}
+        validationSchema={RegisterSchema}
         onSubmit={async (values, { setSubmitting }) => {
           const userCredential = await createUserWithEmailAndPassword(
             auth,
@@ -62,8 +64,8 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.name}
+                error={errors.name}
               />
-              {errors.name && touched.name && errors.name}
               <Input
                 type="email"
                 name="email"
@@ -71,8 +73,9 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.email}
+                error={errors.email}
               />
-              {errors.email && touched.email && errors.email}
+
               <Input
                 type="password"
                 name="password"
@@ -80,8 +83,8 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.password}
+                error={errors.password}
               />
-              {errors.password && touched.password && errors.password}
             </div>
             <Btn type="submit" disabled={isSubmitting} className="w-full">
               Sign Up

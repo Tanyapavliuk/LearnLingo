@@ -44,9 +44,9 @@ export const ListTeacherItem = ({ el }) => {
         <LangList data={el.levels} />
         {more ? (
           <>
-            <button onClick={() => setBook(true)}>
+            <div onClick={() => setBook(true)}>
               <Btn className="mt-8">Book trial lesson</Btn>
-            </button>
+            </div>
           </>
         ) : null}
         {book ? (
