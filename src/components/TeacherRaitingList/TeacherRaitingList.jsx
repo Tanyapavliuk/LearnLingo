@@ -18,26 +18,37 @@ import {
   doc,
 } from "firebase/firestore";
 import { Favorite } from "../../helpers/ContextProvider";
+import { AlertNotUser } from "../AlertNotUser";
 
 export const TeacherRaitingList = ({ el }) => {
   const { favorite } = useContext(Favorite);
   const [inList, setInList] = useState(false);
   const [isUser, setIsUser] = useState(false);
   const [collectionRef, setCollectionRef] = useState(null);
+  const [showModalNotUser, setShowModalNotUser] = useState(false);
 
   const auth = getAuth(app);
 
   useEffect(() => {
     const uid = auth.currentUser?.uid;
-    if (uid) {
-      setIsUser(true);
-      return;
-    }
     if (!uid) {
       setIsUser(false);
       return;
     }
-  }, [auth]);
+    if (uid) {
+      setIsUser(true);
+      const isFavorite = favorite.data.some((item) => item.data.id === el.id);
+      console.log(isFavorite);
+
+      if (isFavorite) {
+        setInList(true);
+      }
+      if (!isFavorite) {
+        setInList(false);
+      }
+      return;
+    }
+  }, [auth, favorite]);
 
   useEffect(() => {
     const uid = auth.currentUser?.uid;
@@ -55,9 +66,11 @@ export const TeacherRaitingList = ({ el }) => {
 
   const toggleFavorite = async (id) => {
     if (!isUser) {
-      alert("is not user");
+      setShowModalNotUser(true);
       return;
     }
+
+    setIsUser(true);
     const isFavorite =
       favorite.data && favorite.data.find((el) => el.data?.id === id);
 
@@ -67,12 +80,9 @@ export const TeacherRaitingList = ({ el }) => {
       setInList(false);
     } else {
       try {
-        const favoriteDocRef = await addDoc(collectionRef, { ...el });
-        console.log("Favorite item added with ID: ", favoriteDocRef.id);
+        await addDoc(collectionRef, { ...el });
         setInList(true);
-      } catch (error) {
-        console.error("Error adding favorite item: ", error);
-      }
+      } catch (error) {}
     }
   };
 
@@ -110,10 +120,13 @@ export const TeacherRaitingList = ({ el }) => {
       </ul>
       <button onClick={() => toggleFavorite(el.id)}>
         <img
-          src={isUser && inList ? addedHeart : heart}
+          src={inList ? addedHeart : heart}
           className={`w-[26px] h-[26px] `}
         />
       </button>
+      {showModalNotUser ? (
+        <AlertNotUser onClose={() => setShowModalNotUser(false)} />
+      ) : null}
     </div>
   );
 };

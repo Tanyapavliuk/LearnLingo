@@ -1,9 +1,18 @@
 import { useEffect } from "react";
 import x from "../../assets/x.svg";
 export const ModalWrapper = ({ onClose, children }) => {
+  function closeModalOnEscape(event) {
+    if (event.key === "Escape") {
+      onClose();
+    }
+  }
+
   useEffect(() => {
-    document.body.classList.add("overscroll-y-none");
-    return document.body.classList.remove("overscroll-y-none");
+    document.addEventListener("keydown", closeModalOnEscape);
+
+    return () => {
+      document.removeEventListener("keydown", closeModalOnEscape);
+    };
   }, []);
   return (
     <div

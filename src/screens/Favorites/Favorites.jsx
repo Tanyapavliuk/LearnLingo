@@ -4,6 +4,7 @@ import { app } from "../../firebase";
 import { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ListFavorites } from "../../components/ListFavorites";
+import { ContextProvider } from "../../helpers/ContextProvider";
 
 const auth = getAuth(app);
 const initValue = onAuthStateChanged(auth, (user) => {
@@ -17,7 +18,6 @@ const initValue = onAuthStateChanged(auth, (user) => {
 export const Favorites = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(initValue);
-
   const auth = getAuth(app);
 
   useLayoutEffect(() => {
@@ -32,9 +32,11 @@ export const Favorites = () => {
   }, [user]);
 
   return (
-    <div className="min-h-screen grid grid-rows-[min-content_1fr_min-content] pb-8 pt-5">
-      <Header />
-      {/* <ListFavorites /> */}
-    </div>
+    <ContextProvider>
+      <div className="min-h-screen grid grid-rows-[min-content_1fr_min-content] pb-8 pt-5">
+        <Header />
+        <ListFavorites />
+      </div>
+    </ContextProvider>
   );
 };
