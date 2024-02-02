@@ -68,11 +68,19 @@ export const TeacherRaitingList = ({ el }) => {
     if (!isUser) {
       setShowModalNotUser(true);
       return;
+    } else {
+      setIsUser(true);
+      setShowModalNotUser(false);
     }
 
     setIsUser(true);
     const isFavorite =
-      favorite.data && favorite.data.find((el) => el.data?.id === id);
+      favorite.data &&
+      favorite.data.find((item) => {
+        console.log(item.data.id);
+        console.log(id);
+        return item.data?.id === id;
+      });
 
     if (isFavorite) {
       setInList(true);

@@ -5,6 +5,9 @@ import { getAuth } from "firebase/auth";
 
 import { ListTeacherItem } from "../ListTeacherItem";
 import { Favorite } from "../../helpers/ContextProvider";
+import { CommonText } from "../../ui/CommonText";
+
+import image from "../../assets/addedHeart.svg";
 
 export const ListFavorites = () => {
   const [favoritesList, setFavoritesList] = useState([]);
@@ -49,12 +52,19 @@ export const ListFavorites = () => {
   }, []);
 
   return (
-    <ul className="px-10">
-      {favoritesList
-        ? favoritesList.map((favorite) => (
-            <ListTeacherItem key={favorite.ref} el={favorite.data} />
-          ))
-        : null}
+    <ul className="px-20 flex flex-col gap-8">
+      {favoritesList.length > 0 ? (
+        favoritesList.map((favorite) => (
+          <ListTeacherItem key={favorite.ref} el={favorite.data} />
+        ))
+      ) : (
+        <li>
+          <CommonText>
+            While there are no favorites, add them by clicking on the heart
+          </CommonText>
+          <img src={image} width={50} height={50} />
+        </li>
+      )}
     </ul>
   );
 };
