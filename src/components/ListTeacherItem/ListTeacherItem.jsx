@@ -32,12 +32,12 @@ export const ListTeacherItem = ({ el }) => {
         <TeacherShortInfo el={el} />
         {more ? <TeacherMoreInfo el={el} /> : null}
         <button
-          className="mt-[16px] hover:scale-110"
+          className="mt-[16px] hover:scale-110 focus:scale-110"
           onClick={() => {
             setMore((more) => !more);
           }}
         >
-          <CommonText className="underline hover:decoration-accent">
+          <CommonText className="underline hover:decoration-accent focus:decoration-accent">
             {more ? "Hide more" : "Read more"}
           </CommonText>
         </button>

@@ -21,20 +21,26 @@ import { Favorite } from "../../helpers/ContextProvider";
 import { AlertNotUser } from "../AlertNotUser";
 
 export const TeacherRaitingList = ({ el }) => {
+  const auth = getAuth(app);
+  const isUserCheck = () => {
+    const uid = auth.currentUser?.uid;
+    if (uid) {
+      return true;
+    }
+    if (!uid) {
+      return false;
+    }
+  };
+
   const { favorite } = useContext(Favorite);
   const [inList, setInList] = useState(false);
-  const [isUser, setIsUser] = useState(false);
+  const [isUser, setIsUser] = useState(isUserCheck);
   const [collectionRef, setCollectionRef] = useState(null);
   const [showModalNotUser, setShowModalNotUser] = useState(false);
 
-  const auth = getAuth(app);
-
   useEffect(() => {
-    const uid = auth.currentUser?.uid;
-    if (uid) {
-      setIsUser(true);
+    if (isUser) {
       const isFavorite = favorite.data.some((item) => item.data.id === el.id);
-      console.log(isFavorite);
 
       if (isFavorite) {
         setInList(true);
@@ -44,11 +50,7 @@ export const TeacherRaitingList = ({ el }) => {
       }
       return;
     }
-    if (!uid) {
-      setIsUser(false);
-      return;
-    }
-  }, [auth, favorite]);
+  }, [isUser, favorite]);
 
   useEffect(() => {
     const uid = auth.currentUser?.uid;
@@ -65,20 +67,17 @@ export const TeacherRaitingList = ({ el }) => {
   }, [auth]);
 
   const toggleFavorite = async (id) => {
-    if (!isUser) {
+    if (!auth.currentUser) {
+      setIsUser(false);
       setShowModalNotUser(true);
       return;
     }
-
-    if (isUser) {
+    if (auth.currentUser !== null && auth.currentUser.uid) {
       setIsUser(true);
       setShowModalNotUser(false);
-
       const isFavorite =
         favorite.data &&
         favorite.data.find((item) => {
-          console.log(item.data.id);
-          console.log(id);
           return item.data?.id === id;
         });
 
@@ -127,10 +126,13 @@ export const TeacherRaitingList = ({ el }) => {
           </CommonText>
         </li>
       </ul>
-      <button onClick={() => toggleFavorite(el.id)} className="hover:scale-110">
+      <button
+        onClick={() => toggleFavorite(el.id)}
+        className="hover:animate-ping"
+      >
         <img
           src={inList ? addedHeart : heart}
-          className={`w-[26px] h-[26px] `}
+          className={`w-[26px] h-[26px]`}
         />
       </button>
       {showModalNotUser ? (
