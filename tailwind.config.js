@@ -31,6 +31,15 @@ export default {
       fontFamily: {
         sans: ['"Roboto"', ...defaultTheme.fontFamily.sans],
       },
+      keyframes: {
+        line: {
+          "0%, 100%": { width: 0 },
+          "50%": { width: "100%" },
+        },
+      },
+      animation: {
+        line: "line 2s ease-in-out infinite",
+      },
     },
   },
   plugins: [require("@tailwindcss/container-queries")],

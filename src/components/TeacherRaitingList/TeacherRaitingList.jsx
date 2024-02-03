@@ -31,10 +31,6 @@ export const TeacherRaitingList = ({ el }) => {
 
   useEffect(() => {
     const uid = auth.currentUser?.uid;
-    if (!uid) {
-      setIsUser(false);
-      return;
-    }
     if (uid) {
       setIsUser(true);
       const isFavorite = favorite.data.some((item) => item.data.id === el.id);
@@ -46,6 +42,10 @@ export const TeacherRaitingList = ({ el }) => {
       if (!isFavorite) {
         setInList(false);
       }
+      return;
+    }
+    if (!uid) {
+      setIsUser(false);
       return;
     }
   }, [auth, favorite]);
@@ -68,29 +68,30 @@ export const TeacherRaitingList = ({ el }) => {
     if (!isUser) {
       setShowModalNotUser(true);
       return;
-    } else {
-      setIsUser(true);
-      setShowModalNotUser(false);
     }
 
-    setIsUser(true);
-    const isFavorite =
-      favorite.data &&
-      favorite.data.find((item) => {
-        console.log(item.data.id);
-        console.log(id);
-        return item.data?.id === id;
-      });
+    if (isUser) {
+      setIsUser(true);
+      setShowModalNotUser(false);
 
-    if (isFavorite) {
-      setInList(true);
-      await deleteDoc(doc(collectionRef, isFavorite.ref));
-      setInList(false);
-    } else {
-      try {
-        await addDoc(collectionRef, { ...el });
+      const isFavorite =
+        favorite.data &&
+        favorite.data.find((item) => {
+          console.log(item.data.id);
+          console.log(id);
+          return item.data?.id === id;
+        });
+
+      if (isFavorite) {
         setInList(true);
-      } catch (error) {}
+        await deleteDoc(doc(collectionRef, isFavorite.ref));
+        setInList(false);
+      } else {
+        try {
+          await addDoc(collectionRef, { ...el });
+          setInList(true);
+        } catch (error) {}
+      }
     }
   };
 
@@ -126,7 +127,7 @@ export const TeacherRaitingList = ({ el }) => {
           </CommonText>
         </li>
       </ul>
-      <button onClick={() => toggleFavorite(el.id)}>
+      <button onClick={() => toggleFavorite(el.id)} className="hover:scale-110">
         <img
           src={inList ? addedHeart : heart}
           className={`w-[26px] h-[26px] `}
