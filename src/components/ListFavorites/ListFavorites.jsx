@@ -2,12 +2,10 @@ import { app } from "../../firebase";
 import { useContext, useEffect, useState } from "react";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { Favorite } from "../../helpers/ContextProvider";
 
 import { ListTeacherItem } from "../ListTeacherItem";
-import { Favorite } from "../../helpers/ContextProvider";
-import { CommonText } from "../../ui/CommonText";
-
-import image from "../../assets/addedHeart.svg";
+import { EmptyFavoritesList } from "../EmptyFavoritesList";
 
 export const ListFavorites = () => {
   const [favoritesList, setFavoritesList] = useState([]);
@@ -58,12 +56,7 @@ export const ListFavorites = () => {
           <ListTeacherItem key={favorite.ref} el={favorite.data} />
         ))
       ) : (
-        <li>
-          <CommonText>
-            While there are no favorites, add them by clicking on the heart
-          </CommonText>
-          <img src={image} width={50} height={50} />
-        </li>
+        <EmptyFavoritesList />
       )}
     </ul>
   );

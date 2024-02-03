@@ -5,14 +5,14 @@ import { BookForm } from "../BookForm";
 
 export const BookLessonModal = ({ onClose, el }) => {
   return (
-    <ModalWrapper onClose={onClose}>
-      <div className="flex flex-col gap-5">
+    <ModalWrapper onClose={onClose} className="!w-7/12">
+      <div className="flex flex-col gap-5 overflow-y-auto">
         <PopUpTitle>Book trial lesson</PopUpTitle>
         <p className="w-full text-neutral-900 text-opacity-80 text-base font-normal leading-snug">
           Our experienced tutor will assess your current language level, discuss
           your learning goals, and tailor the lesson to your specific needs.
         </p>
-        <div className="flex gap-[14px] mb-10">
+        <div className="flex gap-[14px] mb-2">
           <div className="rounded-[100px] w-[44px] h-[44px] overflow-hidden">
             <img
               src={el.avatar_url}

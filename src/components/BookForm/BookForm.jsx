@@ -35,7 +35,7 @@ export const BookForm = () => {
         isSubmitting,
       }) => (
         <form onSubmit={handleSubmit}>
-          <div className="mt-5 mb-10 flex flex-col gap-[18px]">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-[18px]">
             <ul className="flex flex-col gap-[18px] mb-10">
               {arrayReason.map((el) => (
                 <li key={el} className="min-content">
@@ -47,38 +47,40 @@ export const BookForm = () => {
                       className="sr-only"
                     />
                     <img src={values.reason === el ? checked : noChecked} />
-                    <CommonText>{el}</CommonText>
+                    <CommonText className="text-nowrap">{el}</CommonText>
                   </label>
                 </li>
               ))}
             </ul>
-            <Input
-              type="text"
-              name="fullName"
-              label="Full Name"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.fullName}
-              error={errors.fullName}
-            />
-            <Input
-              type="email"
-              name="email"
-              label="Email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-              error={errors.email}
-            />
-            <Input
-              type="number"
-              name="number"
-              label="Phone number"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.number}
-              error={errors.number}
-            />
+            <div className="flex flex-col gap-[18px]">
+              <Input
+                type="text"
+                name="fullName"
+                label="Full Name"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.fullName}
+                error={errors.fullName}
+              />
+              <Input
+                type="email"
+                name="email"
+                label="Email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+                error={errors.email}
+              />
+              <Input
+                type="number"
+                name="number"
+                label="Phone number"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.number}
+                error={errors.number}
+              />
+            </div>
           </div>
           <Btn type="submit" disabled={isSubmitting} className="w-full">
             Book
