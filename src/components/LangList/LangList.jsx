@@ -2,7 +2,7 @@ import { LangBtn } from "../../ui/LangBtn";
 
 export const LangList = ({ data }) => {
   return (
-    <ul className="flex gap-2 mt-8">
+    <ul className="flex gap-2 mt-8 flex-wrap">
       {data.map((el, ind) => (
         <li key={ind}>
           <LangBtn

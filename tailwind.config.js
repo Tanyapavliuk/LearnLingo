@@ -9,6 +9,9 @@ export default {
       lg: "1280px",
       xl: "1440px",
       "2xl": "1780px",
+      smOnly: { max: "767.98px" },
+      mdOnly: { min: "768px", max: "1279.98px" },
+      notXl: { max: "1279.98px" },
     },
     container: {
       padding: {

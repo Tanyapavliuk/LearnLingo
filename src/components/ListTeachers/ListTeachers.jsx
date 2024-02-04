@@ -35,7 +35,7 @@ export const ListTeachers = () => {
   }, []);
 
   return (
-    <ul className="px-20 flex flex-col gap-8">
+    <ul className="px-5 lg:px-20 flex flex-col gap-8">
       {teachers.map((el) => (
         <ListTeacherItem el={el} key={el.id} />
       ))}
