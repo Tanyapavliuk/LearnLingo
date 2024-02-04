@@ -13,14 +13,16 @@ export const TeacherShortInfo = ({ el }) => {
         ))}
       </li>
       <li className="flex gap-1">
-        <GrayText>Lesson Info:</GrayText>
-        <CommonText>{el.lesson_info}</CommonText>
+        <GrayText className="text-nowrap">Lesson Info:</GrayText>
+        <CommonText className="text-balance">{el.lesson_info}</CommonText>
       </li>
       <li className="flex gap-1">
         <GrayText>Conditions:</GrayText>
-        {el.conditions.map((el, ind) => (
-          <CommonText key={ind}>{el}</CommonText>
-        ))}
+        <div className="flex flex-col lg:flex-row gap-1">
+          {el.conditions.map((el, ind) => (
+            <CommonText key={ind}>{el}</CommonText>
+          ))}
+        </div>
       </li>
     </ul>
   );

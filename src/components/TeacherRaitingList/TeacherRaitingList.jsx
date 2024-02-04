@@ -20,7 +20,7 @@ import {
 import { Favorite } from "../../helpers/ContextProvider";
 import { AlertNotUser } from "../AlertNotUser";
 
-export const TeacherRaitingList = ({ el }) => {
+export const TeacherRaitingList = ({ className = "", el }) => {
   const auth = getAuth(app);
   const isUserCheck = () => {
     const uid = auth.currentUser?.uid;
@@ -95,30 +95,32 @@ export const TeacherRaitingList = ({ el }) => {
   };
 
   return (
-    <div className="flex gap-[64px]">
-      <ul className="flex gap-4 items-center">
+    <div className={`w-full flex justify-between lg:gap-[64px] ${className}`}>
+      <ul className="grid grid-cols-2  grid-rows-2 md:flex gap-2 lg::gap-4 items-center">
         <li key="Lessons" className="flex items-center gap-2">
           <img src={book} />
-          <CommonText>Lessons online</CommonText>
+          <CommonText className="text-nowrap">Lessons online</CommonText>
         </li>
-        <li key="edf">
+        <li key="edf" className="hidden md:block">
           <img src={line} />
         </li>
         <li key={el.lessons_done}>
-          <CommonText>Lessons done: {el.lessons_done}</CommonText>
+          <CommonText className="text-nowrap">
+            Lessons done: {el.lessons_done}
+          </CommonText>
         </li>
-        <li key="eddff">
+        <li key="eddff" className="hidden md:block">
           <img src={line} />
         </li>
         <li key={el.rating} className="flex items-center gap-2">
           <img src={star} />
-          <CommonText> Rating: {el.rating}</CommonText>
+          <CommonText className="text-nowrap"> Rating: {el.rating}</CommonText>
         </li>
-        <li key="eddddff">
+        <li key="eddddff" className="hidden md:block">
           <img src={line} />
         </li>
         <li key={el.price_per_hour}>
-          <CommonText>
+          <CommonText className="text-nowrap">
             Price / 1 hour:{" "}
             <AccentText className="text-green-500">
               {el.price_per_hour}$
