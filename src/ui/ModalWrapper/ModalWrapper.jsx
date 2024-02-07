@@ -1,6 +1,11 @@
 import { useEffect } from "react";
 import x from "../../assets/x.svg";
-export const ModalWrapper = ({ className = "", onClose, children }) => {
+export const ModalWrapper = ({
+  className = "",
+  onClose,
+  children,
+  closeClassName = "",
+}) => {
   function closeModalOnEscape(event) {
     if (event.key === "Escape") {
       onClose();
@@ -31,7 +36,7 @@ export const ModalWrapper = ({ className = "", onClose, children }) => {
       >
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 hover:scale-110 focus:scale-110 "
+          className={`absolute top-5 right-5 w-8 h-8 hover:scale-110 focus:scale-110 ${closeClassName}`}
         >
           <img src={x} alt="button close" className="hover:animate-spin" />
         </button>
