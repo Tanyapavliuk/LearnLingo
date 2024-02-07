@@ -3,15 +3,14 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "../../firebase";
 
 import { Logo } from "../../ui/Logo";
-import { LogInBtn } from "../../ui/LogInBtn";
-import { BtnText } from "../../ui/BtnText";
 import { Register } from "../Register";
 import { Login } from "../Login";
-import { LogOut } from "../LogOut";
 import { Navigation } from "../Navigation";
 import { BurgerMenu } from "../BurgerMenu";
 import { createPortal } from "react-dom";
 import { BtnLogReg } from "../BtnLogReg";
+
+import burger from "../../assets/burger.svg";
 
 const auth = getAuth(app);
 const initValue = onAuthStateChanged(auth, (user) => {
@@ -41,9 +40,9 @@ export const Header = () => {
   }, [auth]);
 
   return (
-    <header className="px-5 md:px-16 lg:px-[8rem] pb-5 flex justify-between">
-      <Logo />
-      <div className=" hidden lg:block">
+    <header className="px-5 md:px-16 lg:px-[8rem] pb-5">
+      <div className="hidden smd:flex justify-between">
+        <Logo />
         <Navigation user={user} />
         <BtnLogReg
           user={user}
@@ -54,13 +53,20 @@ export const Header = () => {
           register={register}
         />
       </div>
+      <div className="flex justify-between smd:hidden">
+        <Logo />
+        <button onClick={() => setShowModal(true)}>
+          <img src={burger} width={24} height={24} />
+        </button>
+      </div>
 
-      <button className="lg:hidden" onClick={() => setShowModal(true)}>
-        Open burger
-      </button>
       {showModal &&
         createPortal(
-          <BurgerMenu onClose={() => setShowModal(false)} user={user}>
+          <BurgerMenu
+            onClose={() => setShowModal(false)}
+            user={user}
+            closeClassName="w-6 h-6"
+          >
             <BtnLogReg
               user={user}
               auth={auth}
@@ -74,6 +80,8 @@ export const Header = () => {
           </BurgerMenu>,
           document.body
         )}
+      {register ? <Register onClose={() => setRegister(false)} /> : null}
+      {login ? <Login onClose={() => setLogin(false)} /> : null}
     </header>
   );
 };

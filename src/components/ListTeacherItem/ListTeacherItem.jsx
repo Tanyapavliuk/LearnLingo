@@ -13,7 +13,7 @@ export const ListTeacherItem = ({ el }) => {
   const [more, setMore] = useState(false);
   const [book, setBook] = useState(false);
   return (
-    <li className="w-full grid lg:grid-cols-[max-content_1fr] gap-5 lg:gap-[48px] p-3 lg:p-6 rounded-3xl border-2 border-accent">
+    <li className="w-full grid lg:grid-cols-[max-content_1fr] gap-5 lg:gap-[48px] p-3 lg:p-6 rounded-3xl border-2 border-accent scale-up-center">
       <div className="w-full md:grid md:grid-cols-[max-content_1fr] items-center lg:items-start  gap-10">
         <div className="grid grid-cols-[max-content_1fr] notXl:items-center lg:grid-rows-[max-content_1fr] notXl:gap-5">
           <div className="border-2 border-amber-100 p-2 lg:p-4 rounded-[100px]">

@@ -35,9 +35,6 @@ export const BtnLogReg = ({
           >
             <BtnText className="text-white">Registration</BtnText>
           </button>
-
-          {register ? <Register onClose={() => setRegister(false)} /> : null}
-          {login ? <Login onClose={() => setLogin(false)} /> : null}
         </div>
       )}
       {user !== null && (
