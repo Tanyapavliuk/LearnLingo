@@ -38,7 +38,7 @@ export const BtnLogReg = ({
         </div>
       )}
       {user !== null && (
-        <div className="flex flex-col lg:flex-row gap-4 items-center">
+        <div className="flex flex-row gap-4 items-center">
           <p>
             {auth.currentUser === null
               ? "anonimus"

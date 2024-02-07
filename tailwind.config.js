@@ -42,6 +42,7 @@ export default {
         },
       },
       animation: {
+        ping: "ping 1s cubic-bezier(0, 0, 0.2, 1) 1",
         line: "line 2s ease-in-out infinite",
       },
     },
