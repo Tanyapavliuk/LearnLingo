@@ -8,6 +8,7 @@ import { TeacherShortInfo } from "../TeacherShortInfo";
 import { TeacherMoreInfo } from "../TeacherMoreInfo";
 import { Btn } from "../../ui/Btn";
 import { BookLessonModal } from "../BookLessonModal";
+import { createPortal } from "react-dom";
 
 export const ListTeacherItem = ({ el }) => {
   const [more, setMore] = useState(false);
@@ -58,9 +59,12 @@ export const ListTeacherItem = ({ el }) => {
             </div>
           </>
         ) : null}
-        {book ? (
-          <BookLessonModal el={el} onClose={() => setBook(false)} />
-        ) : null}
+        {book
+          ? createPortal(
+              <BookLessonModal el={el} onClose={() => setBook(false)} />,
+              document.body
+            )
+          : null}
       </div>
     </li>
   );

@@ -5,10 +5,10 @@ import { BookForm } from "../BookForm";
 
 export const BookLessonModal = ({ onClose, el }) => {
   return (
-    <ModalWrapper onClose={onClose} className="!w-7/12">
-      <div className="flex flex-col gap-5 overflow-y-auto">
+    <ModalWrapper onClose={onClose} className="lg:!w-7/12 overflow-y-auto">
+      <div className="flex flex-col gap-2 md:gap-4 lg:gap-5">
         <PopUpTitle>Book trial lesson</PopUpTitle>
-        <p className="w-full text-neutral-900 text-opacity-80 text-base font-normal leading-snug">
+        <p className="w-full text-neutral-900 text-opacity-80 text-xs lg:text-base font-normal leading-snug">
           Our experienced tutor will assess your current language level, discuss
           your learning goals, and tailor the lesson to your specific needs.
         </p>
@@ -24,7 +24,7 @@ export const BookLessonModal = ({ onClose, el }) => {
             <p className="text-[16px] font-medium">{el.name}</p>
           </div>
         </div>
-        <h2 className="w-full text-neutral-900 leading-8 text-2xl font-medium">
+        <h2 className="w-full text-neutral-900 leading-8 text-base lg:text-2xl font-medium">
           What is your main reason for learning English?
         </h2>
 

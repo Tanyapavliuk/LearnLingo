@@ -35,8 +35,8 @@ export const BookForm = () => {
         isSubmitting,
       }) => (
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-[18px]">
-            <ul className="flex flex-col gap-[18px] mb-10">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-2 lg:gap-[18px]">
+            <ul className="flex flex-col gap-2 lg:gap-[18px] mb-5 lg:mb-10">
               {arrayReason.map((el) => (
                 <li key={el} className="min-content">
                   <label className="flex gap-2">
@@ -52,7 +52,7 @@ export const BookForm = () => {
                 </li>
               ))}
             </ul>
-            <div className="flex flex-col gap-[18px]">
+            <div className="flex flex-col gap-2 lg:gap-[18px]">
               <Input
                 type="text"
                 name="fullName"
@@ -82,7 +82,7 @@ export const BookForm = () => {
               />
             </div>
           </div>
-          <Btn type="submit" disabled={isSubmitting} className="w-full">
+          <Btn type="submit" disabled={isSubmitting} className="w-full mt-2">
             Book
           </Btn>
         </form>

@@ -32,7 +32,7 @@ export const ModalWrapper = ({
       className="fixed inset-0 z-10 bg-slate-300/30 flex justify-center items-center"
     >
       <div
-        className={`relative w-[35.375rem] h-min p-[64px] bg-white rounded-[30px] ${className}`}
+        className={`relative w-[35.375rem] h-min py-10 px-5 md:px-10 mx-3 lg:p-[64px] bg-white rounded-[30px] ${className}`}
       >
         <button
           onClick={onClose}
