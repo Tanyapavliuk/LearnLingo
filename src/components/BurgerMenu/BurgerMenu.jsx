@@ -6,7 +6,7 @@ export const BurgerMenu = ({ onClose, user, children, closeClassName }) => {
   return (
     <ModalWrapper
       onClose={onClose}
-      className="px-5 pt-5 w-full h-screen rounded-none"
+      className="px-5 pt-5 w-full h-screen rounded-none mx-0"
       closeClassName={closeClassName}
     >
       <div className="flex flex-col gap-20 py-10">

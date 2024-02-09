@@ -1,12 +1,13 @@
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { app } from "../../firebase";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ListTeacherItem } from "../ListTeacherItem";
-import { Favorite } from "../../helpers/ContextProvider";
 
-const readDataFromFirestore = async () => {
+const readDataFromFirestore = async (page) => {
   const database = getFirestore(app);
+  const step = 4;
+  const startAt = (page - 1) * step;
   const dataCollection = collection(database, "teachers");
   let teachers = [];
 
@@ -24,21 +25,23 @@ const readDataFromFirestore = async () => {
 
 export const ListTeachers = () => {
   const [teachers, setTeachers] = useState([]);
-  // const { favorite } = useContext(Favorite);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const getData = async () => {
-      readDataFromFirestore().then((data) => setTeachers(data));
+      readDataFromFirestore(page).then((data) => setTeachers(data));
     };
-    // console.log(favorite);
     getData();
-  }, []);
+  }, [page]);
 
   return (
-    <ul className="px-5 lg:px-20 flex flex-col gap-8">
-      {teachers.map((el) => (
-        <ListTeacherItem el={el} key={el.id} />
-      ))}
-    </ul>
+    <>
+      <ul className="px-5 lg:px-20 flex flex-col gap-8">
+        {teachers.map((el) => (
+          <ListTeacherItem el={el} key={el.id} />
+        ))}
+      </ul>
+      <button onClick={() => setPage((state) => state + 1)}>Load more</button>
+    </>
   );
 };
