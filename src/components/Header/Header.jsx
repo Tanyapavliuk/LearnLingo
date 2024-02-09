@@ -65,7 +65,7 @@ export const Header = () => {
           <BurgerMenu
             onClose={() => setShowModal(false)}
             user={user}
-            closeClassName="w-6 h-6"
+            closeClassName="w-6 h-6 top-10"
           >
             <BtnLogReg
               user={user}

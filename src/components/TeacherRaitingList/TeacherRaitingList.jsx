@@ -19,6 +19,7 @@ import {
 } from "firebase/firestore";
 import { Favorite } from "../../helpers/ContextProvider";
 import { AlertNotUser } from "../AlertNotUser";
+import { createPortal } from "react-dom";
 
 export const TeacherRaitingList = ({ className = "", el }) => {
   const auth = getAuth(app);
@@ -137,9 +138,12 @@ export const TeacherRaitingList = ({ className = "", el }) => {
           className={`w-[26px] h-[26px]`}
         />
       </button>
-      {showModalNotUser ? (
-        <AlertNotUser onClose={() => setShowModalNotUser(false)} />
-      ) : null}
+      {showModalNotUser
+        ? createPortal(
+            <AlertNotUser onClose={() => setShowModalNotUser(false)} />,
+            document.body
+          )
+        : null}
     </div>
   );
 };
