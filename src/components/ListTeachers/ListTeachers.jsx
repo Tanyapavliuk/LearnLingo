@@ -41,7 +41,7 @@ export const ListTeachers = () => {
           <ListTeacherItem el={el} key={el.id} />
         ))}
       </ul>
-      <button onClick={() => setPage((state) => state + 1)}>Load more</button>
+     
     </>
   );
 };
