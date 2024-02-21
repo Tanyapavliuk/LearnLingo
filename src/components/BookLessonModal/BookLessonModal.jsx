@@ -1,7 +1,7 @@
-import { ModalWrapper } from "../../ui/ModalWrapper/ModalWrapper";
-import { PopUpTitle } from "../../ui/PopUpTitle";
-import { GrayText } from "../../ui/GrayText/GrayText";
-import { BookForm } from "../BookForm";
+import { ModalWrapper } from '../../ui/ModalWrapper/ModalWrapper';
+import { PopUpTitle } from '../../ui/PopUpTitle';
+import { GrayText } from '../../ui/GrayText/GrayText';
+import { BookForm } from '../BookForm';
 
 export const BookLessonModal = ({ onClose, el }) => {
   return (
@@ -28,7 +28,7 @@ export const BookLessonModal = ({ onClose, el }) => {
           What is your main reason for learning English?
         </h2>
 
-        <BookForm />
+        <BookForm onClose={onClose} />
       </div>
     </ModalWrapper>
   );

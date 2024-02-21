@@ -41,7 +41,6 @@ export const ListTeachers = () => {
           <ListTeacherItem el={el} key={el.id} />
         ))}
       </ul>
-     
     </>
   );
 };
