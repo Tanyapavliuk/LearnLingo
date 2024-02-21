@@ -1,23 +1,23 @@
-import { Field, Formik } from "formik";
-import { CommonText } from "../../ui/CommonText";
-import { Input } from "../../ui/Input";
-import { Btn } from "../../ui/Btn";
-import { BookSchema } from "../../helpers/yupSchemas/schemas";
-import noChecked from "../../assets/noCheched.svg";
-import checked from "../../assets/Cheked.svg";
+import { Field, Formik } from 'formik';
+import { CommonText } from '../../ui/CommonText';
+import { Input } from '../../ui/Input';
+import { Btn } from '../../ui/Btn';
+import { BookSchema } from '../../helpers/yupSchemas/schemas';
+import noChecked from '../../assets/noCheched.svg';
+import checked from '../../assets/Cheked.svg';
 
 const arrayReason = [
-  "Career and business",
-  "Lesson for kids",
-  "Living abroad",
-  "Exams and coursework",
-  "Culture, travel or hobby",
+  'Career and business',
+  'Lesson for kids',
+  'Living abroad',
+  'Exams and coursework',
+  'Culture, travel or hobby',
 ];
 
-export const BookForm = () => {
+export const BookForm = ({ onClose }) => {
   return (
     <Formik
-      initialValues={{ fullName: "", email: "", number: "", reason: "" }}
+      initialValues={{ fullName: '', email: '', number: '', reason: '' }}
       validationSchema={BookSchema}
       onSubmit={async (values, { setSubmitting }) => {
         console.log(values);
